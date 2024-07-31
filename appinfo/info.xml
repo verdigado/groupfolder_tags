@@ -3,14 +3,18 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>groupfolder_tags</id>
     <name>Groupfolder Tags</name>
-    <summary>Allows you to attach key-value tags to groupfolder</summary>
-    <description><![CDATA[Allows you to attach key-value tags to groupfolder]]></description>
+    <summary>Allows you to attach key-value tags to groupfolders</summary>
+    <description><![CDATA[Allows you to attach key-value tags to groupfolders]]></description>
     <version>1.0.0</version>
     <licence>agpl</licence>
     <author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
     <namespace>GroupfolderTags</namespace>
     <category>files</category>
     <dependencies>
+        <php min-version="8.2" />
+        <database>pgsql</database>
+        <database>sqlite</database>
+        <database>mysql</database>
         <nextcloud min-version="29" max-version="29"/>
     </dependencies>
 </info>
