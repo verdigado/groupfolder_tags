@@ -32,6 +32,4 @@ run_as "php /var/www/html/occ migrations:migrate groupfolder_tags"
 
 run_as "php /var/www/html/occ app:disable firstrunwizard"
 
-run_as "php /var/www/html/occ config:system:set defaultapp --value='groupfolder_tags'"
-
 apache2-foreground
