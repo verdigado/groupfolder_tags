@@ -1,0 +1,37 @@
+
+tasks:
+  - name: Nextcloud Server
+    init: |
+      cd gitpod
+      git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/nextcloud/server.git server
+      docker-compose up --no-start
+    command: |
+      git config core.fileMode false
+      # Both gitpod and Nextcloud need read/write acess
+      # Obviously not recommended for a production system
+      sudo chown -R www-data:www-data ${GITPOD_REPO_ROOT}
+      sudo chmod -R 777 ${GITPOD_REPO_ROOT}
+      cd gitpod
+      docker-compose up
+
+  - name: Dependency install & Frontend watch
+    init: make dev-setup
+    command: make watch-js
+
+  - name: Terminal
+    command: clear
+
+ports:
+  - port: 8080
+    onOpen: notify
+    visibility: private
+  - port: 8081
+    visibility: private
+    onOpen: ignore
+
+vscode:
+  extensions:
+    - Vue.volar
+    - dbaeumer.vscode-eslint
+    - ms-azuretools.vscode-docker
+    - zobo.php-intellisense
