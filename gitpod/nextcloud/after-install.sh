@@ -26,6 +26,8 @@ wait_until_finished
 
 run_as "php /var/www/html/occ config:system:set debug --value='true' --type=boolean"
 
+run_as "php /var/www/html/occ app:install groupfolders"
+
 run_as "php /var/www/html/occ app:enable groupfolder_tags"
 
 run_as "php /var/www/html/occ migrations:migrate groupfolder_tags"
