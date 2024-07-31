@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>groupfolder_tags</id>
+    <name>Groupfolder Tags</name>
+    <summary>Allows you to attach key-value tags to groupfolder</summary>
+    <description><![CDATA[Allows you to attach key-value tags to groupfolder]]></description>
+    <version>1.0.0</version>
+    <licence>agpl</licence>
+    <author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
+    <namespace>GroupfolderTags</namespace>
+    <category>files</category>
+    <dependencies>
+        <nextcloud min-version="29" max-version="29"/>
+    </dependencies>
+</info>
