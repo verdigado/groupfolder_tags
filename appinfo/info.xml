@@ -17,4 +17,7 @@
         <database>mysql</database>
         <nextcloud min-version="29" max-version="29"/>
     </dependencies>
+    <commands>
+		<command>OCA\GroupfolderTags\Command\Tag</command>
+    </commands>
 </info>
