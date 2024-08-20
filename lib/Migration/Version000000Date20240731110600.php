@@ -26,6 +26,10 @@ class Version000000Date20240731110600 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable(self::GROUP_FOLDER_TAGS_TABLE)) {
 			$table = $schema->createTable(self::GROUP_FOLDER_TAGS_TABLE);
+			$table->addColumn('id', Types::INTEGER, [
+				'autoincrement' => true,
+				'notnull' => true,
+			]);
 			$table->addColumn('group_folder_id', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 20,
@@ -35,14 +39,14 @@ class Version000000Date20240731110600 extends SimpleMigrationStep {
 				'length' => 50,
 			]);
 			$table->addColumn('tag_value', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 200,
 			]);
 			$table->addColumn('last_updated_timestamp', Types::BIGINT, [
 				'notnull' => true,
 			]);
-			
-			$table->setPrimaryKey(['group_folder_id', 'tag_key']);
+			$table->setPrimaryKey(['id']);
+			$table->addUniqueIndex(['group_folder_id', 'tag_key'], "groupfolder_tags_group_folder_id_tag_key_index");
 			$table->addIndex(['group_folder_id'], 'groupfolder_tags_group_folder_id_index');
 			$table->addForeignKeyConstraint(
 				$schema->getTable(self::GROUP_FOLDERS_TABLE),
