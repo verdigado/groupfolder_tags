@@ -20,5 +20,6 @@
     <commands>
 		<command>OCA\GroupfolderTags\Command\Tag</command>
 		<command>OCA\GroupfolderTags\Command\GetTag</command>
+		<command>OCA\GroupfolderTags\Command\GetFolder</command>
     </commands>
 </info>

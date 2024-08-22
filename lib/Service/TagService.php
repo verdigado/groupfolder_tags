@@ -78,4 +78,11 @@ class TagService {
 	public function findByGroupFolderAndKey(int $groupFolderId, ?string $key): array {
 		return $this->mapper->findByGroupFolderAndKey($groupFolderId, $key);
 	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 */
+	public function findFolder(string $key, ?string $value): array {
+		return $this->mapper->findFolder($key, $value);
+	}
 }

@@ -91,4 +91,20 @@ class TagMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function findFolder(string $tagKey, ?string $tagValue): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->selectDistinct('group_folder_id')
+			->from(self::TABLENAME)
+			->where($qb->expr()->eq('tag_key', $qb->createNamedParameter($tagKey)));
+
+		if(isset($tagValue)) {
+			$qb->andWhere($qb->expr()->eq('tag_value', $qb->createNamedParameter($tagValue)));
+		}
+
+		return $qb->executeQuery()->fetchAll();
+	}
 }
