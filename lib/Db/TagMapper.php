@@ -5,6 +5,7 @@ namespace OCA\GroupfolderTags\Db;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -30,7 +31,7 @@ class TagMapper extends QBMapper {
 			->from(self::TABLENAME)
 			->where($qb->expr()->eq('group_folder_id', $qb->createNamedParameter($groupFolderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('tag_key', $qb->createNamedParameter($tagKey)));
-		
+
 		return $this->findEntity($qb);
 	}
 
@@ -51,7 +52,7 @@ class TagMapper extends QBMapper {
 			->leftJoin('t', self::GROUP_FOLDERS_TABLENAME, 'g', $qb->expr()->andX(
 				$qb->expr()->eq('t.group_folder_id', 'g.id'),
 			));
-		
+
 		return $this->findOneQuery($qb);
 	}
 
@@ -70,7 +71,24 @@ class TagMapper extends QBMapper {
 		if(isset($tagValue)) {
 			$qb->andWhere($qb->expr()->eq('tag_value', $qb->createNamedParameter($tagValue)));
 		}
-		
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @return Tag[]
+	 * @throws Exception
+	 */
+	public function findByGroupFolderAndKey(string $groupFolderId, ?string $tagKey): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from(self::TABLENAME)
+			->where($qb->expr()->eq('group_folder_id', $qb->createNamedParameter($groupFolderId, IQueryBuilder::PARAM_INT)));
+
+		if(isset($tagKey)) {
+			$qb->andWhere($qb->expr()->eq('tag_key', $qb->createNamedParameter($tagKey)));
+		}
+
 		return $this->findEntities($qb);
 	}
 }

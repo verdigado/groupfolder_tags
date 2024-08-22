@@ -19,5 +19,6 @@
     </dependencies>
     <commands>
 		<command>OCA\GroupfolderTags\Command\Tag</command>
+		<command>OCA\GroupfolderTags\Command\GetTag</command>
     </commands>
 </info>
