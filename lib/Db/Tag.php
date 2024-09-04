@@ -17,6 +17,15 @@ class Tag extends Entity implements JsonSerializable {
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getTagValue() {
+		return $this->tagValue;
+	}
+
+
+
 	public function jsonSerialize(): array {
 		return [
 			'groupFolderId' => $this->groupFolderId,
