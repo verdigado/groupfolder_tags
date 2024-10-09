@@ -22,10 +22,10 @@ class TagService {
 		return $this->mapper->findAll($tagKey, $tagValue);
 	}
 
-	private function handleException(Exception $e): void {
+	private function handleException(Exception $e, int $groupFolderId, string $tagKey): void {
 		if ($e instanceof DoesNotExistException ||
 			$e instanceof MultipleObjectsReturnedException) {
-			throw new TagNotFound($e->getMessage());
+			throw new TagNotFound($groupFolderId, $tagKey);
 		} else {
 			throw $e;
 		}
@@ -35,11 +35,11 @@ class TagService {
 		try {
 			return $this->mapper->find($groupFolderId, $tagKey);
 		} catch (Exception $e) {
-			$this->handleException($e);
+			$this->handleException($e, $groupFolderId, $tagKey);
 		}
 	}
 
-	public function update(int $groupFolderId, string $key, ?string $value): Tag {
+	public function update(int $groupFolderId, string $key, ?string $value = null): Tag {
 		try {
 			$tag = $this->find($groupFolderId, $key);
 			$tagExists = True;
@@ -61,13 +61,13 @@ class TagService {
 		}
 	}
 
-	public function delete(int $groupFolderId, string $key): Tag {
+	public function delete(int $groupFolderId, string $tagKey): Tag {
 		try {
-			$tag = $this->mapper->find($groupFolderId, $key);
+			$tag = $this->mapper->find($groupFolderId, $tagKey);
 			$this->mapper->delete($tag);
 			return $tag;
 		} catch (Exception $e) {
-			$this->handleException($e);
+			$this->handleException($e, $groupFolderId, $tagKey);
 		}
 	}
 
