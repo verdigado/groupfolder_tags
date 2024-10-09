@@ -82,7 +82,7 @@ class TagService {
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function findFolder(string $key, ?string $value): array {
-		return $this->mapper->findFolder($key, $value);
+	public function findGroupfoldersWithTag(string $key, ?string $value): array {
+		return $this->mapper->findGroupfoldersWithTag($key, $value);
 	}
 }

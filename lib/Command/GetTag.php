@@ -15,6 +15,7 @@ class GetTag extends TagCommand {
 			->setDescription('Get single tag value by Groupfolder ID and key. Omit key to get all tags.')
 			->addArgument('folder_id', InputArgument::REQUIRED, 'Groupfolder ID of the tag')
 			->addArgument('key', InputArgument::OPTIONAL, 'Key of the tag');
+		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -33,16 +34,8 @@ class GetTag extends TagCommand {
 				return 1;
 			}
 
-			if (isset($tagKey)) {
-				/** @var Tag $tag */
-				$tag = current($tags);
-				$output->writeln($tag->getTagValue());
-				return 0;
-			}
-
-			foreach ($tags as $tag) {
-				$output->writeln(json_encode($tag));
-			}
+			$this->writeTableInOutputFormat($input, $output, $this->formatTagEntities($tags));
+			
 			return 0;
 		} catch (Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");

@@ -95,7 +95,7 @@ class TagMapper extends QBMapper {
 	/**
 	 * @throws Exception
 	 */
-	public function findFolder(string $tagKey, ?string $tagValue): array {
+	public function findGroupfoldersWithTag(string $tagKey, ?string $tagValue): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->selectDistinct('group_folder_id')
 			->from(self::TABLENAME)
@@ -105,6 +105,6 @@ class TagMapper extends QBMapper {
 			$qb->andWhere($qb->expr()->eq('tag_value', $qb->createNamedParameter($tagValue)));
 		}
 
-		return $qb->executeQuery()->fetchAll();
+		return $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
 	}
 }

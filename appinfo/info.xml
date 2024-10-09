@@ -18,8 +18,8 @@
         <nextcloud min-version="29" max-version="30"/>
     </dependencies>
     <commands>
-		<command>OCA\GroupfolderTags\Command\Tag</command>
+		<command>OCA\GroupfolderTags\Command\SetTag</command>
 		<command>OCA\GroupfolderTags\Command\GetTag</command>
-		<command>OCA\GroupfolderTags\Command\GetFolder</command>
+		<command>OCA\GroupfolderTags\Command\FindGroupfolders</command>
     </commands>
 </info>
