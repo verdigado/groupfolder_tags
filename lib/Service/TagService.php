@@ -22,6 +22,18 @@ class TagService {
 		return $this->mapper->findAll($tagKey, $tagValue);
 	}
 
+	public function findAllIncludingGroupfolder(string $tagKey, ?string $tagValue = null): array {
+		return $this->mapper->findAllIncludingGroupfolder($tagKey, $tagValue);
+	}
+
+	public function findGroupfoldersWithTags(array $filters, array $additionalReturnTags = []): array {
+		return $this->mapper->findGroupfoldersWithTags($filters, $additionalReturnTags);
+	}
+
+	public function findGroupfoldersWithTagsGenerator(array $filters, array $additionalReturnTags = []): \Generator {
+		return $this->mapper->findGroupfoldersWithTagsGenerator($filters, $additionalReturnTags);
+	}
+
 	private function handleException(Exception $e, int $groupFolderId, string $tagKey): void {
 		if ($e instanceof DoesNotExistException ||
 			$e instanceof MultipleObjectsReturnedException) {
