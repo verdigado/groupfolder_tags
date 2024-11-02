@@ -51,6 +51,14 @@ class TagService {
 		}
 	}
 
+	public function findGroupfolderWithTags(int $groupFolderId, array $filters, array $additionalReturnTags = []): ?array {
+		try {
+			return $this->mapper->findGroupfolderWithTags($groupFolderId, $filters, $additionalReturnTags);
+		} catch (DoesNotExistException $e) {
+			return null;
+		}
+	}
+
 	public function update(int $groupFolderId, string $key, ?string $value = null): Tag {
 		try {
 			$tag = $this->find($groupFolderId, $key);
