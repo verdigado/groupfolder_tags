@@ -15,6 +15,7 @@
 	<namespace>GroupfolderTags</namespace>
 	<category>files</category>
 	<website>https://github.com/verdigado/groupfolder_tags</website>
+	<bugs>https://github.com/verdigado/groupfolder_tags/issues</bugs>
 	<dependencies>
 		<php min-version="8.2" />
 		<database>pgsql</database>
