@@ -9,7 +9,7 @@
 		No more: With this app you can add key-value tags to your groupfolders (only visible to admins) making it trivially easy to recognize them again in your automations.
 		This was created for the (yet to launch) organization_folders groupfolder management app, but was kept generic to allow it to be used by your custom automations.
 		This app does not provide a frontend and does nothing on it's own, it is designed to be used in conjunction with other apps/scripts.]]></description>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<licence>agpl</licence>
 	<author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
 	<namespace>GroupfolderTags</namespace>
