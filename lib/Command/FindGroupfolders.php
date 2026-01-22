@@ -2,8 +2,6 @@
 
 namespace OCA\GroupfolderTags\Command;
 
-use OCA\GroupfolderTags\Errors\GroupfolderNotFound;
-
 use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,21 +22,18 @@ class FindGroupfolders extends TagCommand {
 		$tagValue = $input->getArgument('value');
 
 		try {
-			$groupfolderIds = $this->service->findGroupfoldersWithTag($tagKey, $tagValue);
+			$groupfolders = $this->service->findAllIncludingGroupfolder($tagKey, $tagValue);
 
-			if (empty($groupfolderIds)) {
+
+			if (empty($groupfolders)) {
 				$output->writeln("<error>No matching Groupfolders</error>");
 				return 1;
 			}
 
 			$results = [];
 
-			foreach ($groupfolderIds as $groupfolderId) {
-				try {
-					$results[] = $this->formatGroupfolder($groupfolderId);
-				} catch (GroupfolderNotFound $e) {
-					$output->writeln("<error>{$e->getMessage()}</error>");
-				}
+			foreach ($groupfolders as $groupfolder) {
+				$results[] = $this->formatGroupfolderArray($groupfolder);
 			}
 
 			$this->writeTableInOutputFormat($input, $output, $results);

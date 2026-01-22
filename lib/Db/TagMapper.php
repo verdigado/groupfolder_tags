@@ -106,7 +106,7 @@ class TagMapper extends QBMapper {
 	private function findGroupfoldersWithTagsQueryBuilder(array $filters, array $additionalReturnTags = []): IQueryBuilder {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('g.mount_point', 'g.quota', 'g.acl')
+		$qb->select('g.mount_point', 'g.quota', 'g.acl', 'g.root_id', 'g.storage_id', 'g.options')
 			->selectAlias('g.folder_id', 'id')
 			->from(self::GROUP_FOLDERS_TABLENAME, alias: "g");
 
@@ -158,7 +158,7 @@ class TagMapper extends QBMapper {
 	/**
 	 * Get a single groupfolder by id, only if all filters match it
 	 * filter format: indexed array of asociative arrays with attributes: key, value, includeInOutput
-	 * Returns array with groupfolder attributes (id, mount_point, quota, acl) and the values of additionalreturntags and filters with includeInOutput === true
+	 * Returns array with groupfolder attributes (id, mount_point, quota, acl, root_id, storage_id, options) and the values of additionalreturntags and filters with includeInOutput === true
 	 * 
 	 * @param int $groupfolderId
 	 * @param array $filters
@@ -168,7 +168,7 @@ class TagMapper extends QBMapper {
 	public function findGroupfolderWithTags(int $groupFolderId, array $filters, array $additionalReturnTags = []): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('g.mount_point', 'g.quota', 'g.acl')
+		$qb->select('g.mount_point', 'g.quota', 'g.acl', 'g.root_id', 'g.storage_id', 'g.options')
 			->selectAlias('g.folder_id', 'id')
 			->from(self::GROUP_FOLDERS_TABLENAME, alias: "g")
 			->where($qb->expr()->eq('g.folder_id', $qb->createNamedParameter($groupFolderId, IQueryBuilder::PARAM_INT)));
