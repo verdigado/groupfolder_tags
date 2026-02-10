@@ -4,42 +4,33 @@ namespace OCA\GroupfolderTags\Command;
 
 use OCA\GroupfolderTags\Db\Tag;
 use OCA\GroupfolderTags\Service\TagService;
-use OCA\GroupfolderTags\Errors\GroupfolderNotFound;
 
 use OCA\GroupFolders\Command\FolderCommand;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\MountProvider;
+use OCA\GroupFolders\Mount\FolderStorageManager;
 
-
+use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\IDateTimeFormatter;
+use OCP\Util;
 
 abstract class TagCommand extends FolderCommand {
-	private int $rootFolderNumericStorageId;
 
 	public function __construct(
 		FolderManager $folderManager,
 		IRootFolder $rootFolder,
 		MountProvider $mountProvider,
+		FolderStorageManager $folderStorageManager,
 		protected readonly TagService $service,
 		private readonly IDateTimeFormatter $dateTimeFormatter,
 	) {
-		parent::__construct($folderManager, $rootFolder, $mountProvider);
-
-		
-	}
-
-	protected function getRootFolderNumericStorageId() {
-		if(!isset($this->rootFolderNumericStorageId)) {
-			$this->rootFolderNumericStorageId = $this->rootFolder->getMountPoint()->getNumericStorageId();
-		}
-		
-		return $this->rootFolderNumericStorageId;
+		parent::__construct($folderManager, $rootFolder, $mountProvider, $folderStorageManager);
 	}
 
 	protected function formatTagEntity(Tag $tag) {
 		return [
-			"Groupfolder Id" => $tag->getGroupFolderId(),
+			"Groupfolder ID" => $tag->getGroupFolderId(),
 			"Key" => $tag->getTagKey(),
 			"Value" => $tag->getTagValue(),
 			"Last Updated" => $this->dateTimeFormatter->formatDateTime($tag->getLastUpdatedTimestamp()),
@@ -50,19 +41,22 @@ abstract class TagCommand extends FolderCommand {
 		return array_map($this->formatTagEntity(...), $tags);
 	}
 
-	protected function formatGroupfolder($groupfolderId) {
-		$groupfolder = $this->folderManager->getFolder($groupfolderId, $this->getRootFolderNumericStorageId());
+	protected function formatGroupfolderArray(array $groupfolder) {
+		$quota = $groupfolder["quota"];
 
-		if ($groupfolder === false) {
-			throw new GroupfolderNotFound($groupfolderId);
+		if($quota === FolderManager::SPACE_DEFAULT) {
+			$humanQuota = "Default";
+		} else if($quota === FileInfo::SPACE_UNLIMITED) {
+			$humanQuota = "Unlimited";
+		} else {
+			$humanQuota = Util::humanFileSize($quota) . " (" . $quota . " bytes)";
 		}
 
 		return [
-			"Groupfolder Id" => $groupfolder["id"],
+			"Groupfolder ID" => $groupfolder["folder_id"],
 			"Mount Point" => $groupfolder["mount_point"],
-			"Quota" => $groupfolder["quota"],
-			"Size" => $groupfolder["size"],
-			"ACL" => $groupfolder["acl"],
+			"Quota" => $humanQuota,
+			"ACLs enabled" => !!$groupfolder["acl"] ? "yes" : "no",
 		];
 	}
 }
