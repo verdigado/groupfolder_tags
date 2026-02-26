@@ -1,0 +1,21 @@
+{
+    "name": "verdigado/groupfolder_tags",
+    "type": "project",
+    "license": "AGPL-3.0-only",
+    "authors": [
+        {
+            "name": "Jonathan Treffler",
+			"email": "mail@jonathan-treffler.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "OCA\\GroupfolderTags\\": "lib/"
+        }
+    },
+    "require": {},
+    "config": {
+        "optimize-autoloader": true,
+        "autoloader-suffix": "GroupfolderTags"
+	}
+}
